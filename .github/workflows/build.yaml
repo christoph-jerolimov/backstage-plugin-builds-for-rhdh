@@ -46,6 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor == 'christoph-jerolimov'
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        with:
+          egress-policy: audit
+
       - name: Clone repository
         env:
           REPO: ${{ inputs.repo }}
@@ -58,12 +63,9 @@ jobs:
           git checkout FETCH_HEAD
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
-
-      - name: Enable corepack
-        run: corepack enable
 
       - name: Install dependencies
         working-directory: source/workspaces/${{ inputs.workspace }}
@@ -74,3 +76,15 @@ jobs:
         env:
           IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
         run: npx -y @red-hat-developer-hub/cli@1.10.x plugin package --tag "$IMAGE"
+
+      - name: Install podman
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install podman
+
+      - name: Push to GitHub Container Registry
+        env:
+          IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
+        run: |
+          echo ${{ github.token }} | podman login ghcr.io -u ${{ github.actor }} --password-stdin
+          podman push "$IMAGE" ghcr.io/${{ github.repository_owner }}/$IMAGE
