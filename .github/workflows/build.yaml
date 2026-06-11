@@ -58,6 +58,16 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Install podman
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install podman
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
       - name: Clone repository
         env:
           REPO: ${{ inputs.repo }}
@@ -69,25 +79,23 @@ jobs:
           git fetch --depth 1 origin "$BRANCH"
           git checkout FETCH_HEAD
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 22
-
       - name: Install dependencies
         working-directory: source/workspaces/${{ inputs.workspace }}
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
-      - name: Package plugins
+      - name: Build TypeScript types
+        working-directory: source/workspaces/${{ inputs.workspace }}
+        run: yarn tsc:full
+
+      - name: Build plugin
+        working-directory: source/workspaces/${{ inputs.workspace }}
+        run: yarn build:all
+
+      - name: Package plugin
         working-directory: source/workspaces/${{ inputs.workspace }}
         env:
           IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
         run: npx -y @red-hat-developer-hub/cli@1.10.x plugin package --tag "$IMAGE"
-
-      - name: Install podman
-        run: |
-          sudo apt-get update
-          sudo apt-get -y install podman
 
       - name: Push to GitHub Container Registry
         env:
