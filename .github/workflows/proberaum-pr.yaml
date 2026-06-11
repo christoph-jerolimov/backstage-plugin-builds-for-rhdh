@@ -40,5 +40,5 @@ jobs:
       repo: https://github.com/proberaum/backstage-plugins
       branch: refs/pull/${{ inputs.pr }}/head
       workspace: ${{ inputs.workspace }}
-      imageName: ${{ inputs.workspace }}
+      imageName: proberaum-${{ inputs.workspace }}
       imageTag: pr-${{ inputs.pr }}

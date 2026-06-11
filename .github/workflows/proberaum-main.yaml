@@ -28,4 +28,4 @@ jobs:
       repo: https://github.com/proberaum/backstage-plugins
       branch: main
       workspace: ${{ inputs.workspace }}
-      imageName: ${{ inputs.workspace }}
+      imageName: proberaum-${{ inputs.workspace }}
