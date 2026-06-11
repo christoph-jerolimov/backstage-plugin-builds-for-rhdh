@@ -1,12 +1,5 @@
 name: backstage/community-plugins cron
 
-# Sets permissions of the GITHUB_TOKEN to allow pushing a conatainer image to ghcr.io
-permissions:
-  contents: read
-  packages: write
-  attestations: write
-  id-token: write
-
 on:
   schedule:
     - cron: '0 3 * * *'
