@@ -74,7 +74,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: source/workspaces/${{ inputs.workspace }}
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Build TypeScript types
         working-directory: source/workspaces/${{ inputs.workspace }}
