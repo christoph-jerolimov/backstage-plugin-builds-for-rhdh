@@ -1,0 +1,76 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: Git repository URL to clone
+        required: true
+        type: string
+      branch:
+        description: Branch or ref to checkout
+        required: true
+        type: string
+      workspace:
+        description: Workspace folder under workspaces/
+        required: true
+        type: string
+      imageName:
+        description: Name of the image to build
+        required: true
+        type: string
+      imageTag:
+        description: Tag of the image to build
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      repo:
+        required: true
+        type: string
+      branch:
+        required: true
+        type: string
+      workspace:
+        required: true
+        type: string
+      imageName:
+        required: true
+        type: string
+      imageTag:
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.actor == 'christoph-jerolimov'
+    steps:
+      - name: Clone repository
+        env:
+          REPO: ${{ inputs.repo }}
+          BRANCH: ${{ inputs.branch }}
+        run: |
+          git init source
+          cd source
+          git remote add origin "$REPO"
+          git fetch --depth 1 origin "$BRANCH"
+          git checkout FETCH_HEAD
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        working-directory: source/workspaces/${{ inputs.workspace }}
+        run: yarn install
+
+      - name: Package plugins
+        working-directory: source/workspaces/${{ inputs.workspace }}
+        env:
+          IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
+        run: npx -y @red-hat-developer-hub/cli@1.10.x plugin package --tag "$IMAGE"

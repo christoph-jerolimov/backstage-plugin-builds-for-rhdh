@@ -1,0 +1,29 @@
+name: proberaum/backstage-plugins cron
+
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        workspace:
+          - analytics-viewer
+          - config-viewer
+          - devtools
+          - env-viewer
+          - github-notifications
+          - hcloud
+          - icon-viewer
+          - permissions-viewer
+          - scheduler-notifications
+          - whats-new
+    uses: ./.github/workflows/build.yaml
+    with:
+      repo: https://github.com/proberaum/backstage-plugins
+      branch: main
+      workspace: ${{ matrix.workspace }}
+      imageName: ${{ matrix.workspace }}

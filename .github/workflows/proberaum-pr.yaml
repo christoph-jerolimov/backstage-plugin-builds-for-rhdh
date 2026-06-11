@@ -1,0 +1,44 @@
+name: proberaum/backstage-plugins PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      workspace:
+        description: Workspace folder under workspaces/
+        required: true
+        type: string
+      pr:
+        description: Pull request number
+        required: true
+        type: string
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate workspace input
+        env:
+          WORKSPACE: ${{ inputs.workspace }}
+        run: |
+          if [[ ! "$WORKSPACE" =~ ^[a-zA-Z-]+$ ]]; then
+            echo "Invalid workspace: $WORKSPACE"
+            exit 1
+          fi
+      - name: Validate pr input
+        env:
+          PR: ${{ inputs.pr }}
+        run: |
+          if [[ ! "$PR" =~ ^[0-9]+$ ]]; then
+            echo "Invalid pr: $PR"
+            exit 1
+          fi
+
+  build:
+    needs: validate
+    uses: ./.github/workflows/build.yaml
+    with:
+      repo: https://github.com/proberaum/backstage-plugins
+      branch: refs/pull/${{ inputs.pr }}/head
+      workspace: ${{ inputs.workspace }}
+      imageName: ${{ inputs.workspace }}
+      imageTag: pr-${{ inputs.pr }}

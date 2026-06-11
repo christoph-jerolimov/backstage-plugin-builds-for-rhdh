@@ -1,0 +1,31 @@
+name: redhat-developer/rhdh-plugins main
+
+on:
+  workflow_dispatch:
+    inputs:
+      workspace:
+        description: Workspace folder under workspaces/
+        required: true
+        type: string
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate workspace input
+        env:
+          WORKSPACE: ${{ inputs.workspace }}
+        run: |
+          if [[ ! "$WORKSPACE" =~ ^[a-zA-Z-]+$ ]]; then
+            echo "Invalid workspace: $WORKSPACE"
+            exit 1
+          fi
+
+  build:
+    needs: validate
+    uses: ./.github/workflows/build.yaml
+    with:
+      repo: https://github.com/redhat-developer/rhdh-plugins
+      branch: main
+      workspace: ${{ inputs.workspace }}
+      imageName: ${{ inputs.workspace }}

@@ -1,0 +1,32 @@
+name: backstage/community-plugins cron
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        workspace:
+          - acr
+          - argocd
+          - bookmarks
+          - jfrog-artifactory
+          - multi-source-security-viewer
+          - nexus-repository-manager
+          - npm
+          - ocm
+          - quay
+          - rbac
+          - servicenow
+          - tekton
+          - topology
+    uses: ./.github/workflows/build.yaml
+    with:
+      repo: https://github.com/backstage/community-plugins
+      branch: main
+      workspace: ${{ matrix.workspace }}
+      imageName: ${{ matrix.workspace }}

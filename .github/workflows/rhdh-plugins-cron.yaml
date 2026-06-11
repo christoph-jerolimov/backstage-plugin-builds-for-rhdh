@@ -1,0 +1,32 @@
+name: redhat-developer/rhdh-plugins cron
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        workspace:
+          - adoption-insights
+          - ai-integrations
+          - app-defaults
+          - bulk-import
+          - extensions
+          - global-floating-action-button
+          - global-header
+          - homepage
+          - lightspeed
+          - quickstart
+          - scorecard
+          - theme
+          - translations
+    uses: ./.github/workflows/build.yaml
+    with:
+      repo: https://github.com/redhat-developer/rhdh-plugins
+      branch: main
+      workspace: ${{ matrix.workspace }}
+      imageName: ${{ matrix.workspace }}
