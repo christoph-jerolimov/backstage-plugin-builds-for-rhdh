@@ -25,6 +25,9 @@ jobs:
           - tekton
           - topology
     uses: ./.github/workflows/build.yaml
+    secrets:
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
     with:
       repo: https://github.com/backstage/community-plugins
       branch: main

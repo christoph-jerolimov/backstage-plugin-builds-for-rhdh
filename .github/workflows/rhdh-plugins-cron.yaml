@@ -25,6 +25,9 @@ jobs:
           - theme
           - translations
     uses: ./.github/workflows/build.yaml
+    secrets:
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
     with:
       repo: https://github.com/redhat-developer/rhdh-plugins
       branch: main

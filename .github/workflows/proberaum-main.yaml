@@ -24,6 +24,9 @@ jobs:
   build:
     needs: validate
     uses: ./.github/workflows/build.yaml
+    secrets:
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
     with:
       repo: https://github.com/proberaum/backstage-plugins
       branch: main
