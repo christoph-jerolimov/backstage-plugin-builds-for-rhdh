@@ -97,6 +97,12 @@ jobs:
           npx -y @red-hat-developer-hub/cli@1.10.x plugin package --tag "$IMAGE" 2>&1 | tee build.log
           grep -q "Here is an example dynamic-plugins.yaml for these plugins" build.log
 
+      - name: Set expiry label
+        env:
+          IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
+        run: |
+          echo "FROM $IMAGE" | podman build --label "quay.expires-after=2w" -t "$IMAGE" -f -
+
       - name: Push to Quay.io
         env:
           IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
