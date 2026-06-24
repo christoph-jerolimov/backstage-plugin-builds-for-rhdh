@@ -133,6 +133,6 @@ jobs:
       QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
     with:
       repo: https://github.com/backstage/backstage
-      branch: main
+      branch: master
       workdir: plugins/${{ matrix.workspace }}
       imageName: backstage-${{ matrix.workspace }}
