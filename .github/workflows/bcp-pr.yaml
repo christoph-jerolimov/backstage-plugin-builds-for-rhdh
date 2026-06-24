@@ -43,5 +43,5 @@ jobs:
       repo: https://github.com/backstage/community-plugins
       branch: refs/pull/${{ inputs.pr }}/head
       workspace: ${{ inputs.workspace }}
-      imageName: ${{ inputs.workspace }}
+      imageName: bcp-${{ inputs.workspace }}
       imageTag: pr-${{ inputs.pr }}

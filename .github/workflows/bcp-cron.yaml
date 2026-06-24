@@ -32,4 +32,4 @@ jobs:
       repo: https://github.com/backstage/community-plugins
       branch: main
       workspace: ${{ matrix.workspace }}
-      imageName: ${{ matrix.workspace }}
+      imageName: bcp-${{ matrix.workspace }}

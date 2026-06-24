@@ -31,4 +31,4 @@ jobs:
       repo: https://github.com/backstage/community-plugins
       branch: main
       workspace: ${{ inputs.workspace }}
-      imageName: ${{ inputs.workspace }}
+      imageName: bcp-${{ inputs.workspace }}

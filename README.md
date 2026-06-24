@@ -59,8 +59,8 @@ For each source repository there are three trigger workflows:
 
 | Prefix              | Repository                                              | Cron schedule | Image name prefix |
 | ------------------- | ------------------------------------------------------ | ------------- | ----------------- |
-| `bcp-*`             | `backstage/community-plugins`                          | `0 3 * * *`   | _(none)_          |
-| `rhdh-plugins-*`    | `redhat-developer/rhdh-plugins`                        | `0 4 * * *`   | _(none)_          |
+| `bcp-*`             | `backstage/community-plugins`                          | `0 3 * * *`   | `bcp-`            |
+| `rhdh-plugins-*`    | `redhat-developer/rhdh-plugins`                        | `0 4 * * *`   | `rhdh-`           |
 | `proberaum-*`       | `proberaum/backstage-plugins`                          | `0 5 * * *`   | `proberaum-`      |
 
 Cron matrices:

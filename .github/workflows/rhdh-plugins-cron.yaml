@@ -31,4 +31,4 @@ jobs:
       repo: https://github.com/redhat-developer/rhdh-plugins
       branch: main
       workspace: ${{ matrix.workspace }}
-      imageName: ${{ matrix.workspace }}
+      imageName: rhdh-${{ matrix.workspace }}
