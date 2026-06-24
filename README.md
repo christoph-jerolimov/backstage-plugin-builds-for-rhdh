@@ -69,19 +69,6 @@ Cron schedules use standard [cron syntax](https://en.wikipedia.org/wiki/Cron)
 staggered an hour apart so the builds do not all run at once; `backstage` runs
 weekly because of its large matrix.
 
-Cron matrices:
-
-- **backstage:** catalog, home
-- **community-plugins:** acr, argocd, bookmarks, jfrog-artifactory,
-  multi-source-security-viewer, nexus-repository-manager, npm, ocm, quay, rbac,
-  servicenow, tekton, topology
-- **rhdh-plugins:** adoption-insights, ai-integrations, app-defaults,
-  bulk-import, extensions, global-header, homepage, lightspeed, quickstart,
-  scorecard, theme, translations
-- **proberaum:** analytics-viewer, config-viewer, devtools, env-viewer,
-  github-notifications, hcloud, icon-viewer, permissions-viewer,
-  scheduler-notifications, whats-new
-
 The `backstage/backstage` repository keeps its plugins under `plugins/` rather
 than `workspaces/`, so its trigger workflows pass `plugins/<workspace>` as the
 build `workdir`.
