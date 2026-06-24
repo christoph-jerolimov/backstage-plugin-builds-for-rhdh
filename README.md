@@ -57,12 +57,17 @@ For each source repository there are three trigger workflows:
 
 ### Source repositories
 
-| Prefix              | Repository                                              | Cron schedule | Image name prefix |
-| ------------------- | ------------------------------------------------------ | ------------- | ----------------- |
-| `backstage-*`       | `backstage/backstage`                                  | `0 2 * * *`   | `backstage-`      |
-| `bcp-*`             | `backstage/community-plugins`                          | `0 3 * * *`   | `bcp-`            |
-| `rhdh-plugins-*`    | `redhat-developer/rhdh-plugins`                        | `0 4 * * *`   | `rhdh-`           |
-| `proberaum-*`       | `proberaum/backstage-plugins`                          | `0 5 * * *`   | `proberaum-`      |
+| Prefix              | Repository                                              | Cron schedule          | Image name prefix |
+| ------------------- | ------------------------------------------------------ | ---------------------- | ----------------- |
+| `backstage-*`       | `backstage/backstage`                                  | `0 2 * * 0` (Sun 02:00) | `backstage-`      |
+| `bcp-*`             | `backstage/community-plugins`                          | `0 3 * * *` (daily 03:00) | `bcp-`         |
+| `rhdh-plugins-*`    | `redhat-developer/rhdh-plugins`                        | `0 4 * * *` (daily 04:00) | `rhdh-`        |
+| `proberaum-*`       | `proberaum/backstage-plugins`                          | `0 5 * * *` (daily 05:00) | `proberaum-`   |
+
+Cron schedules use standard [cron syntax](https://en.wikipedia.org/wiki/Cron)
+(`minute hour day-of-month month day-of-week`, in UTC). The daily schedules are
+staggered an hour apart so the builds do not all run at once; `backstage` runs
+weekly because of its large matrix.
 
 Cron matrices:
 

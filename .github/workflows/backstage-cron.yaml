@@ -2,7 +2,7 @@ name: backstage/backstage cron
 
 on:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 2 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -11,8 +11,122 @@ jobs:
       fail-fast: false
       matrix:
         workspace:
+          - api-docs
+          - api-docs-module-protoc-gen-doc
+          - app
+          - app-backend
+          - app-visualizer
+          - auth
+          - auth-backend
+          # - auth-backend-module-atlassian-provider
+          # - auth-backend-module-auth0-provider
+          # - auth-backend-module-aws-alb-provider
+          # - auth-backend-module-azure-easyauth-provider
+          # - auth-backend-module-bitbucket-provider
+          # - auth-backend-module-bitbucket-server-provider
+          # - auth-backend-module-cloudflare-access-provider
+          # - auth-backend-module-gcp-iap-provider
+          - auth-backend-module-github-provider
+          - auth-backend-module-gitlab-provider
+          # - auth-backend-module-google-provider
+          # - auth-backend-module-guest-provider
+          # - auth-backend-module-microsoft-provider
+          # - auth-backend-module-oauth2-provider
+          # - auth-backend-module-oauth2-proxy-provider
+          # - auth-backend-module-oidc-provider
+          # - auth-backend-module-okta-provider
+          # - auth-backend-module-onelogin-provider
+          # - auth-backend-module-openshift-provider
+          # - auth-backend-module-pinniped-provider
+          # - auth-backend-module-vmware-cloud-provider
           - catalog
+          - catalog-backend
+          # - catalog-backend-module-aws
+          # - catalog-backend-module-azure
+          # - catalog-backend-module-backstage-openapi
+          # - catalog-backend-module-bitbucket-cloud
+          # - catalog-backend-module-bitbucket-server
+          # - catalog-backend-module-gcp
+          # - catalog-backend-module-gerrit
+          # - catalog-backend-module-gitea
+          - catalog-backend-module-github
+          # - catalog-backend-module-github-org
+          # - catalog-backend-module-gitlab
+          # - catalog-backend-module-gitlab-org
+          # - catalog-backend-module-incremental-ingestion
+          # - catalog-backend-module-ldap
+          # - catalog-backend-module-logs
+          # - catalog-backend-module-msgraph
+          # - catalog-backend-module-openapi
+          # - catalog-backend-module-puppetdb
+          # - catalog-backend-module-scaffolder-entity-model
+          # - catalog-backend-module-unprocessed
+          - catalog-graph
+          - catalog-import
+          - catalog-unprocessed-entities
+          - config-schema
+          - devtools
+          - devtools-backend
+          - events-backend
+          # - events-backend-module-aws-sqs
+          # - events-backend-module-azure
+          # - events-backend-module-bitbucket-cloud
+          # - events-backend-module-bitbucket-server
+          # - events-backend-module-gerrit
+          - events-backend-module-github
+          # - events-backend-module-gitlab
+          # - events-backend-module-google-pubsub
+          # - events-backend-module-kafka
+          - example-todo-list
+          - example-todo-list-backend
+          - gateway-backend
           - home
+          - kubernetes
+          - kubernetes-backend
+          - kubernetes-cluster
+          - mcp-actions-backend
+          - mui-to-bui
+          - notifications
+          - notifications-backend
+          - notifications-backend-module-email
+          - notifications-backend-module-slack
+          - org
+          - permission-backend
+          - permission-backend-module-policy-allow-all
+          - proxy-backend
+          - scaffolder
+          - scaffolder-backend
+          - scaffolder-backend-module-azure
+          - scaffolder-backend-module-bitbucket
+          - scaffolder-backend-module-bitbucket-cloud
+          - scaffolder-backend-module-bitbucket-server
+          - scaffolder-backend-module-confluence-to-markdown
+          - scaffolder-backend-module-cookiecutter
+          - scaffolder-backend-module-gcp
+          - scaffolder-backend-module-gerrit
+          - scaffolder-backend-module-gitea
+          - scaffolder-backend-module-github
+          - scaffolder-backend-module-gitlab
+          - scaffolder-backend-module-notifications
+          - scaffolder-backend-module-rails
+          - scaffolder-backend-module-sentry
+          - scaffolder-backend-module-yeoman
+          - search
+          - search-backend
+          - search-backend-module-catalog
+          - search-backend-module-elasticsearch
+          - search-backend-module-explore
+          - search-backend-module-pg
+          - search-backend-module-stack-overflow-collator
+          - search-backend-module-techdocs
+          - signals
+          - signals-backend
+          - techdocs
+          - techdocs-backend
+          - techdocs-module-addons-contrib
+          - user-settings
+          - user-settings-backend
+
     uses: ./.github/workflows/build.yaml
     secrets:
       QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
