@@ -59,12 +59,14 @@ For each source repository there are three trigger workflows:
 
 | Prefix              | Repository                                              | Cron schedule | Image name prefix |
 | ------------------- | ------------------------------------------------------ | ------------- | ----------------- |
+| `backstage-*`       | `backstage/backstage`                                  | `0 2 * * *`   | `backstage-`      |
 | `bcp-*`             | `backstage/community-plugins`                          | `0 3 * * *`   | `bcp-`            |
 | `rhdh-plugins-*`    | `redhat-developer/rhdh-plugins`                        | `0 4 * * *`   | `rhdh-`           |
 | `proberaum-*`       | `proberaum/backstage-plugins`                          | `0 5 * * *`   | `proberaum-`      |
 
 Cron matrices:
 
+- **backstage:** catalog, home
 - **community-plugins:** acr, argocd, bookmarks, jfrog-artifactory,
   multi-source-security-viewer, nexus-repository-manager, npm, ocm, quay, rbac,
   servicenow, tekton, topology
@@ -74,6 +76,10 @@ Cron matrices:
 - **proberaum:** analytics-viewer, config-viewer, devtools, env-viewer,
   github-notifications, hcloud, icon-viewer, permissions-viewer,
   scheduler-notifications, whats-new
+
+The `backstage/backstage` repository keeps its plugins under `plugins/` rather
+than `workspaces/`, so its trigger workflows pass `plugins/<workspace>` as the
+build `workdir`.
 
 ## Usage
 

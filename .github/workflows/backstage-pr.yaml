@@ -1,0 +1,47 @@
+name: backstage/backstage PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      workspace:
+        description: Plugin folder under plugins/
+        required: true
+        type: string
+      pr:
+        description: Pull request number
+        required: true
+        type: string
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate workspace input
+        env:
+          WORKSPACE: ${{ inputs.workspace }}
+        run: |
+          if [[ ! "$WORKSPACE" =~ ^[a-zA-Z-]+$ ]]; then
+            echo "Invalid workspace: $WORKSPACE"
+            exit 1
+          fi
+      - name: Validate pr input
+        env:
+          PR: ${{ inputs.pr }}
+        run: |
+          if [[ ! "$PR" =~ ^[0-9]+$ ]]; then
+            echo "Invalid pr: $PR"
+            exit 1
+          fi
+
+  build:
+    needs: validate
+    uses: ./.github/workflows/build.yaml
+    secrets:
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
+    with:
+      repo: https://github.com/backstage/backstage
+      branch: refs/pull/${{ inputs.pr }}/head
+      workdir: plugins/${{ inputs.workspace }}
+      imageName: backstage-${{ inputs.workspace }}
+      imageTag: pr-${{ inputs.pr }}

@@ -1,0 +1,24 @@
+name: backstage/backstage cron
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        workspace:
+          - catalog
+          - home
+    uses: ./.github/workflows/build.yaml
+    secrets:
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
+    with:
+      repo: https://github.com/backstage/backstage
+      branch: main
+      workdir: plugins/${{ matrix.workspace }}
+      imageName: backstage-${{ matrix.workspace }}
