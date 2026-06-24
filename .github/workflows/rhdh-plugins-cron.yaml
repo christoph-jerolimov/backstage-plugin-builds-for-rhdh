@@ -16,7 +16,6 @@ jobs:
           - app-defaults
           - bulk-import
           - extensions
-          - global-floating-action-button
           - global-header
           - homepage
           - lightspeed

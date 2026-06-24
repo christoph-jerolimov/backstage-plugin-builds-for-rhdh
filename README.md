@@ -69,8 +69,8 @@ Cron matrices:
   multi-source-security-viewer, nexus-repository-manager, npm, ocm, quay, rbac,
   servicenow, tekton, topology
 - **rhdh-plugins:** adoption-insights, ai-integrations, app-defaults,
-  bulk-import, extensions, global-floating-action-button, global-header,
-  homepage, lightspeed, quickstart, scorecard, theme, translations
+  bulk-import, extensions, global-header, homepage, lightspeed, quickstart,
+  scorecard, theme, translations
 - **proberaum:** analytics-viewer, config-viewer, devtools, env-viewer,
   github-notifications, hcloud, icon-viewer, permissions-viewer,
   scheduler-notifications, whats-new
