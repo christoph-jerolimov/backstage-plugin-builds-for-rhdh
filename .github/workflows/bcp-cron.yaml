@@ -31,5 +31,5 @@ jobs:
     with:
       repo: https://github.com/backstage/community-plugins
       branch: main
-      workspace: ${{ matrix.workspace }}
+      workdir: workspaces/${{ matrix.workspace }}
       imageName: bcp-${{ matrix.workspace }}

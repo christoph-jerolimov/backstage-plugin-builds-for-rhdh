@@ -21,7 +21,7 @@ another workflow (`workflow_call`). It:
 
 1. Hardens the runner and installs `podman` and Node.js 22.
 2. Clones `repo`, checks out `branch` (shallow).
-3. In `workspaces/<workspace>` runs `yarn install --immutable`, `yarn tsc:full`,
+3. In `<workdir>` runs `yarn install --immutable`, `yarn tsc:full`,
    and `yarn build:all`.
 4. Packages the plugin via `npx @red-hat-developer-hub/cli@1.10.x plugin package
    --tag "<imageName>:<imageTag>"` and verifies the build log contains the
@@ -34,7 +34,7 @@ another workflow (`workflow_call`). It:
 | ----------- | -------- | -------------------------------------------- |
 | `repo`      | yes      | Git repository URL to clone                  |
 | `branch`    | yes      | Branch or ref to checkout                    |
-| `workspace` | yes      | Workspace folder under `workspaces/`         |
+| `workdir`   | yes      | Working directory under the cloned repository |
 | `imageName` | yes      | Name of the image to build                   |
 | `imageTag`  | no       | Image tag (defaults to `latest`)             |
 

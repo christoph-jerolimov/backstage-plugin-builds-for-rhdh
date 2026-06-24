@@ -42,6 +42,6 @@ jobs:
     with:
       repo: https://github.com/redhat-developer/rhdh-plugins
       branch: refs/pull/${{ inputs.pr }}/head
-      workspace: ${{ inputs.workspace }}
+      workdir: workspaces/${{ inputs.workspace }}
       imageName: rhdh-${{ inputs.workspace }}
       imageTag: pr-${{ inputs.pr }}

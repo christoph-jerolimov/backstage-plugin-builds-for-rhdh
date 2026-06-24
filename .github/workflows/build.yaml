@@ -11,8 +11,8 @@ on:
         description: Branch or ref to checkout
         required: true
         type: string
-      workspace:
-        description: Workspace folder under workspaces/
+      workdir:
+        description: Working directory under the cloned repository
         required: true
         type: string
       imageName:
@@ -31,7 +31,7 @@ on:
       branch:
         required: true
         type: string
-      workspace:
+      workdir:
         required: true
         type: string
       imageName:
@@ -78,19 +78,19 @@ jobs:
           git checkout FETCH_HEAD
 
       - name: Install dependencies
-        working-directory: source/workspaces/${{ inputs.workspace }}
+        working-directory: source/${{ inputs.workdir }}
         run: yarn install --immutable
 
       - name: Build TypeScript types
-        working-directory: source/workspaces/${{ inputs.workspace }}
+        working-directory: source/${{ inputs.workdir }}
         run: yarn tsc:full
 
       - name: Build plugin
-        working-directory: source/workspaces/${{ inputs.workspace }}
+        working-directory: source/${{ inputs.workdir }}
         run: yarn build:all
 
       - name: Package plugin
-        working-directory: source/workspaces/${{ inputs.workspace }}
+        working-directory: source/${{ inputs.workdir }}
         env:
           IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
         run: |

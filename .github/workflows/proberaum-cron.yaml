@@ -28,5 +28,5 @@ jobs:
     with:
       repo: https://github.com/proberaum/backstage-plugins
       branch: main
-      workspace: ${{ matrix.workspace }}
+      workdir: workspaces/${{ matrix.workspace }}
       imageName: proberaum-${{ matrix.workspace }}
