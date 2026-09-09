@@ -14,11 +14,13 @@ jobs:
           - adoption-insights
           - ai-integrations
           - app-defaults
+          - boost
           - bulk-import
           - extensions
           - global-header
           - homepage
-          - lightspeed
+          - intelligent-assistant
+          - orchestrator
           - quickstart
           - scorecard
           - theme
