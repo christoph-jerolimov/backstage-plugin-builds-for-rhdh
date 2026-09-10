@@ -100,7 +100,6 @@ jobs:
           - scaffolder
           - scaffolder-backend
           - scaffolder-backend-module-azure
-          - scaffolder-backend-module-bitbucket
           - scaffolder-backend-module-bitbucket-cloud
           - scaffolder-backend-module-bitbucket-server
           - scaffolder-backend-module-confluence-to-markdown
