@@ -1,5 +1,12 @@
 name: Build
 
+# Sets permissions of the GITHUB_TOKEN to allow pushing a container image to ghcr.io
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -40,11 +47,6 @@ on:
       imageTag:
         required: false
         type: string
-    secrets:
-      QUAY_USERNAME:
-        required: true
-      QUAY_TOKEN:
-        required: true
 
 jobs:
   build:
@@ -97,15 +99,9 @@ jobs:
           npx -y @red-hat-developer-hub/cli@1.10.x plugin package --tag "$IMAGE" 2>&1 | tee build.log
           grep -q "Here is an example dynamic-plugins.yaml for these plugins" build.log
 
-      - name: Set expiry label
+      - name: Push to GitHub Container Registry
         env:
           IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
         run: |
-          echo "FROM $IMAGE" | podman build --label "quay.expires-after=2w" -t "$IMAGE" -f -
-
-      - name: Push to Quay.io
-        env:
-          IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
-        run: |
-          echo "${{ secrets.QUAY_TOKEN }}" | podman login quay.io -u "${{ secrets.QUAY_USERNAME }}" --password-stdin
-          podman push "$IMAGE" quay.io/christophs-backstage-plugin-builds-for-rhdh/$IMAGE
+          echo "${{ github.token }}" | podman login ghcr.io -u "${{ github.actor }}" --password-stdin
+          podman push "$IMAGE" ghcr.io/${{ github.repository_owner }}/$IMAGE
