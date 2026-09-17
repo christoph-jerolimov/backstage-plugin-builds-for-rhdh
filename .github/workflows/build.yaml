@@ -89,6 +89,11 @@ jobs:
         working-directory: source/${{ inputs.workdir }}
         run: yarn build:all
 
+      - name: Get commit SHA
+        id: sha
+        working-directory: source
+        run: echo "short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
       - name: Package plugin
         working-directory: source/${{ inputs.workdir }}
         env:
@@ -103,9 +108,17 @@ jobs:
         run: |
           echo "FROM $IMAGE" | podman build --label "quay.expires-after=2w" -t "$IMAGE" -f -
 
+      - name: Tag with SHA suffix
+        env:
+          IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
+          IMAGE_SHA: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}-${{ steps.sha.outputs.short }}
+        run: podman tag "$IMAGE" "$IMAGE_SHA"
+
       - name: Push to Quay.io
         env:
           IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
+          IMAGE_SHA: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}-${{ steps.sha.outputs.short }}
         run: |
           echo "${{ secrets.QUAY_TOKEN }}" | podman login quay.io -u "${{ secrets.QUAY_USERNAME }}" --password-stdin
           podman push "$IMAGE" quay.io/christophs-backstage-plugin-builds-for-rhdh/$IMAGE
+          podman push "$IMAGE_SHA" quay.io/christophs-backstage-plugin-builds-for-rhdh/$IMAGE_SHA
