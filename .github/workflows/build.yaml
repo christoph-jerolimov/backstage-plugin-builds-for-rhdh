@@ -106,7 +106,7 @@ jobs:
         env:
           IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
         run: |
-          echo "FROM $IMAGE" | podman build --label "quay.expires-after=2w" -t "$IMAGE" -f -
+          echo "FROM $IMAGE" | podman build --label "quay.expires-after=31d" -t "$IMAGE" -f -
 
       - name: Tag with SHA suffix
         env:
