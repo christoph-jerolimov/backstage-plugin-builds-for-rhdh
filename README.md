@@ -23,10 +23,10 @@ another workflow (`workflow_call`). It:
 2. Clones `repo`, checks out `branch` (shallow).
 3. In `<workdir>` runs `yarn install --immutable`, `yarn tsc:full`,
    and `yarn build:all`.
-4. Packages the plugin via `npx @red-hat-developer-hub/cli@1.10.x plugin package
-   --tag "<imageName>:<imageTag>"` and verifies the build log contains the
-   expected success message.
-5. Stamps a `quay.expires-after=2w` label on the image so Quay.io auto-deletes
+4. Packages the plugin via `npx @red-hat-developer-hub/cli plugin package --tag "<imageName>:<imageTag>"`
+   and verifies the build log contains the expected success message.
+   For the used version see `.github/workflows/build.yaml` or the "Package plugin" step logs.
+5. Stamps a `quay.expires-after=31d` label on the image so Quay.io auto-deletes
    it two weeks after the push.
 6. Logs in to Quay.io and pushes the image.
 
