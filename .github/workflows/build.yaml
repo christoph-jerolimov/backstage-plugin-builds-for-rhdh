@@ -99,8 +99,14 @@ jobs:
         env:
           IMAGE: ${{ inputs.imageName }}:${{ inputs.imageTag || 'latest' }}
         run: |
-          npx -y @red-hat-developer-hub/cli@2.1.1 plugin package --tag "$IMAGE" 2>&1 | tee build.log
-          grep -q "Here is an example dynamic-plugins.yaml for these plugins" build.log
+          package_plugin() {
+            npx -y @red-hat-developer-hub/cli@2.1.1 plugin package --tag "$IMAGE" 2>&1 | tee build.log
+            grep -q "Here is an example dynamic-plugins.yaml for these plugins" build.log
+          }
+          package_plugin || {
+            echo "rhdh-cli package failed; retrying once..."
+            package_plugin
+          }
 
       - name: Set expiry label
         env:
